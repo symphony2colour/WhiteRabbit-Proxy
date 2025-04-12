@@ -5,10 +5,10 @@ This is a proxy server script which helps to achieve an SQL injection on HTB Whi
 This repo isn't an exploit itself this is just a proxy server which forwards your requests.
 
 # Description
-The WhiteRabbit box has a webhook with a potential SQL injection in it. However we can't simply achieve this
-SQL injection with sqlmap, because end point is protected with HMAC signature. Each time we send an unsigned/
-or an invalid payload the server responds with "Invalid Signature". So this script just accepts a payload
-in a query parameter, calculates HMAC signature and forwards your request to the endpoint.
+The WhiteRabbit box has a webhook with a potential SQL injection in Get Current Phishing Score. However we can't 
+simply achieve this SQL injection with sqlmap, because end point is protected with HMAC signature. Each time we when
+we send an unsigned/ or an invalid payload the server responds with "Invalid Signature". So this script just accepts 
+a payload in a query parameter, calculates HMAC signature and forwards your request to the endpoint.
 
 
 # Usage
