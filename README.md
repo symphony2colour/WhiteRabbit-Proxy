@@ -8,11 +8,12 @@ the WhiteRabbit HTB box.
 # Description
 The WhiteRabbit box has a webhook with a potential SQL injection in it. However we can't simply achieve this
 SQL injection with sqlmap, because end point is protected with HMAC signature. Each time we send an unsigned/
-or an invalid payload the server responds with "Invalid Signature". So this script is just gets a payload
-in a query parameter, calculates HMAC signature and forwards request to the endpoint.
+or an invalid payload the server responds with "Invalid Signature". So this script just accepts a payload
+in a query parameter, calculates HMAC signature and forwards you request to the endpoint.
 
 
 # Usage
+
 1. Add a webhook url to /etc/hosts
 
 2. Launch script with a python:
@@ -25,6 +26,6 @@ in a query parameter, calculates HMAC signature and forwards request to the endp
 
 4. Now you can make an automatic SQL injection with a command like:
    
-   ```sqlmap 'http://127.0.0.1:10000/?query=test' -p query --level 5 --risk 3 --batch```
+   ```sqlmap 'http://localhost:10000/?query=test' -p query --level 5 --risk 3 --batch```
 
 
