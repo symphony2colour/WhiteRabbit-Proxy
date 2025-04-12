@@ -1,9 +1,8 @@
 # WhiteRabbit-Proxy
-This is a proxy server script in order to help to achieve SQL injection in HTB WhiteRabbit Box
+This is a proxy server script which helps to achieve an SQL injection on HTB WhiteRabbit Box.
 
 # Short Remark
-This repo isn't an exploit itself this is just a proxy server which can help you to achieve SQL Injection in
-the WhiteRabbit HTB box.
+This repo isn't an exploit itself this is just a proxy server which forwards your requests.
 
 # Description
 The WhiteRabbit box has a webhook with a potential SQL injection in it. However we can't simply achieve this
