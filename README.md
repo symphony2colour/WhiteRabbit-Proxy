@@ -19,12 +19,16 @@ in a query parameter, calculates HMAC signature and forwards you request to the 
    
    ```python3 proxy.py```
 
-3. Proxy will start listening on port 10000, so you reach the endpoint with following command:
+3. Proxy will start listening on port 10000, so you may reach the endpoint with following command:
 
    ```curl http://localhost:10000/?query=SOMETHING```
 
 4. Now you can make an automatic SQL injection with a command like:
    
    ```sqlmap 'http://localhost:10000/?query=test' -p query --level 5 --risk 3 --batch```
+
+5. The server will be showing all the requests performed by sqlmap, so it might be interesting to watch the
+process or try to achieve end point manually with different payloads in order to better understand what is
+going on.
 
 
