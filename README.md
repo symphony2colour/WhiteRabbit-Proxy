@@ -14,7 +14,7 @@ The WhiteRabbit machine exposes a webhook where the **Get Current Phishing Score
 ```
 
 Direct tools (like `sqlmap`) fail because the endpoint enforces an **HMAC signature** and rejects unsigned/invalid bodies with `Invalid Signature`.  
-This proxy listens locally, accepts your payload via a query parameter, **calculates the correct HMAC**, and **POSTs** the request to the real webhook. fileciteturn2file0
+This proxy listens locally, accepts your payload via a query parameter, **calculates the correct HMAC**, and **POSTs** the request to the real webhook.
 
 ---
 
