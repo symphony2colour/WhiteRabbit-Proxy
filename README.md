@@ -38,7 +38,7 @@ This proxy listens locally, accepts your payload via a query parameter, **calcul
 - HTTP server on `localhost:10000` (single-request loop).  
 - Expects **`query`** parameter carrying your test input (e.g., candidate SQLi).  
 - Signs the compact JSON with `HMAC‑SHA256` and sends header `x-gophish-signature: hmac=<hex>`.  
-- Forwards the webhook response body/status back to the client. fileciteturn2file0
+- Forwards the webhook response body/status back to the client.
 
 ---
 
@@ -50,7 +50,7 @@ pip install -r requirements.txt  # (requests)
 # or: pip install requests
 ```
 
-> The script uses only the standard library + `requests`. fileciteturn2file0
+> The script uses only the standard library + `requests`.
 
 ---
 
