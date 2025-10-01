@@ -1,0 +1,3 @@
+# Dependencies for WhiteRabbit-Proxy
+# Standard library: hmac, hashlib, http.server, urllib.parse, json (no install needed)
+requests>=2.31.0
