@@ -98,7 +98,7 @@ WEBHOOK_URL = "http://<host>/webhook/<uuid>"
 
 ## 🧪 Troubleshooting
 
-- **`Invalid Signature`**: ensure `SECRET` and `WEBHOOK_URL` are correct and the JSON is compacted exactly as the server expects. fileciteturn2file0  
+- **`Invalid Signature`**: ensure `SECRET` and `WEBHOOK_URL` are correct and the JSON is compacted exactly as the server expects.
 - **No response / timeout**: verify host mapping and that the webhook is reachable from your lab.  
 - **sqlmap sends extra params**: pin `-p query` to constrain injection testing to the intended parameter.  
 - **Need concurrency**: the built-in server handles one request at a time; for heavier traffic, adapt to `ThreadingHTTPServer`.
