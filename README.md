@@ -69,7 +69,7 @@ pip install -r requirements.txt  # (requests)
    sqlmap "http://localhost:10000/?query=test" -p query --level 5 --risk 3 --batch
    ```
 
-> The console shows every inbound request line; useful for watching `sqlmap` mutate payloads. fileciteturn2file0
+> The console shows every inbound request line; useful for watching `sqlmap` mutate payloads.
 
 ---
 
