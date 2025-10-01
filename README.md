@@ -20,8 +20,7 @@ This proxy listens locally, accepts your payload via a query parameter, **calcul
 
 ## 🧩 How it works (at a glance)
 
-```
-  mermaid
+```mermaid
   sequenceDiagram
   participant You
   participant Proxy (localhost:10000)
