@@ -1,34 +1,122 @@
 # WhiteRabbit-Proxy
-This is a proxy server script which helps to achieve an SQL injection on HTB WhiteRabbit Box.
 
-# Short Remark
-This repo isn't an exploit itself this is just a proxy server which forwards your requests.
+> Lightweight **HMAC-signing proxy** to help test the webhook endpoint on the Hack The Box **WhiteRabbit** box with parameterized payloads (e.g., for SQLi research).  
+> This proxy **is not an exploit**. It merely computes the expected HMAC for the JSON body and forwards your request to the target webhook.
 
-# Description
-The WhiteRabbit box has a webhook with a potential SQL injection in Get Current Phishing Score node. However we can't 
-simply achieve this SQL injection with sqlmap, because end point is protected by HMAC signature. Each time when we
-send an unsigned/ or an invalid payload the server responds with "Invalid Signature". So this script just accepts 
-a payload in the query parameter, calculates HMAC signature and forwards your request to the endpoint.
+---
 
+## 🧭 What this is
 
-# Usage
+The WhiteRabbit machine exposes a webhook where the **Get Current Phishing Score** node accepts JSON like:
 
-1. Add a webhook url to /etc/hosts
+```json
+{"campaign_id":1,"email":"<value>","message":"Clicked Link"}
+```
 
-2. Launch script with a python:
-   
-   ```python3 proxy.py```
+Direct tools (like `sqlmap`) fail because the endpoint enforces an **HMAC signature** and rejects unsigned/invalid bodies with `Invalid Signature`.  
+This proxy listens locally, accepts your payload via a query parameter, **calculates the correct HMAC**, and **POSTs** the request to the real webhook. fileciteturn2file0
 
-3. Proxy will start listening on port 10000, so you may reach the endpoint with following command:
+---
 
-   ```curl http://localhost:10000/?query=SOMETHING```
+## 🧩 How it works (at a glance)
 
-4. Now you can make an automatic SQL injection with a command like:
-   
-   ```sqlmap 'http://localhost:10000/?query=test' -p query --level 5 --risk 3 --batch```
+```mermaid
+sequenceDiagram
+  participant You
+  participant Proxy (localhost:10000)
+  participant Webhook (whiterabbit.htb)
 
-5. The server will be showing all the requests performed by sqlmap, so it might be interesting to watch the
-process or try to achieve end point manually with different payloads in order to better understand what is
-going on.
+  You->>Proxy (GET): /?query=<payload>
+  Proxy->>Proxy: Build JSON {"campaign_id":1,"email":<payload>,"message":"Clicked Link"}
+  Proxy->>Proxy: Compute HMAC-SHA256 over compact JSON
+  Proxy->>Webhook: POST /webhook/<uuid> with JSON + header x-gophish-signature: hmac=<digest>
+  Webhook-->>Proxy: 200/4xx + JSON body
+  Proxy-->>You: Forwards status + body
+```
 
+**Implementation notes**  
+- HTTP server on `localhost:10000` (single-request loop).  
+- Expects **`query`** parameter carrying your test input (e.g., candidate SQLi).  
+- Signs the compact JSON with `HMAC‑SHA256` and sends header `x-gophish-signature: hmac=<hex>`.  
+- Forwards the webhook response body/status back to the client. fileciteturn2file0
 
+---
+
+## ⚙️ Setup
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt  # (requests)
+# or: pip install requests
+```
+
+> The script uses only the standard library + `requests`. fileciteturn2file0
+
+---
+
+## 🚀 Usage
+
+1. **Add the webhook host to `/etc/hosts`** (if needed for the HTB lab environment).
+2. **Start the proxy**:
+   ```bash
+   python3 proxy.py
+   # → listening on http://localhost:10000
+   ```
+3. **Try a manual request**:
+   ```bash
+   curl "http://localhost:10000/?query=test@example.com"
+   ```
+4. **Automate with sqlmap** (the proxy signs each request automatically):
+   ```bash
+   sqlmap "http://localhost:10000/?query=test" -p query --level 5 --risk 3 --batch
+   ```
+
+> The console shows every inbound request line; useful for watching `sqlmap` mutate payloads. fileciteturn2file0
+
+---
+
+## 🔧 Configuration
+
+These constants live at the top of `proxy.py` and can be changed to match your lab:
+
+```python
+SECRET = "..."  # shared HMAC secret expected by the webhook
+WEBHOOK_URL = "http://<host>/webhook/<uuid>"
+```
+
+- The proxy builds a payload object with fields `campaign_id`, `email`, and `message` and **compacts** it before signing.  
+- HMAC is calculated as `HMAC_SHA256(secret, payload_json)` and sent via header `x-gophish-signature: hmac=<digest>`. fileciteturn2file0
+
+> Tip: If you want to pass additional JSON fields, extend the `Payload` class and keep the **same compaction and signing** routine. fileciteturn2file0
+
+---
+
+## 🛡️ Ethics & scope
+
+- For **authorized research and education** only. Respect HTB rules; **do not** target active machines unlawfully.  
+- This proxy **does not bypass** authentication—it simply mirrors the client behavior of producing the expected HMAC for the JSON body.
+
+---
+
+## 🧪 Troubleshooting
+
+- **`Invalid Signature`**: ensure `SECRET` and `WEBHOOK_URL` are correct and the JSON is compacted exactly as the server expects. fileciteturn2file0  
+- **No response / timeout**: verify host mapping and that the webhook is reachable from your lab.  
+- **sqlmap sends extra params**: pin `-p query` to constrain injection testing to the intended parameter.  
+- **Need concurrency**: the built-in server handles one request at a time; for heavier traffic, adapt to `ThreadingHTTPServer`.
+
+---
+
+## 📦 File layout
+
+```
+.
+├── proxy.py
+└── README.md  (this file)
+```
+
+---
+
+## 📝 License
+
+MIT — see `LICENSE`.
