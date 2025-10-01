@@ -19,19 +19,17 @@ This proxy listens locally, accepts your payload via a query parameter, **calcul
 ---
 
 ## 🧩 How it works (at a glance)
-
 ```mermaid
-  sequenceDiagram
+sequenceDiagram
   participant You
-  participant Proxy (localhost:10000)
-  participant Webhook (whiterabbit.htb)
-
-  You->>Proxy (GET): /?query=<payload>
-  Proxy->>Proxy: Build JSON {"campaign_id":1,"email":<payload>,"message":"Clicked Link"}
-  Proxy->>Proxy: Compute HMAC-SHA256 over compact JSON
-  Proxy->>Webhook: POST /webhook/<uuid> with JSON + header x-gophish-signature: hmac=<digest>
-  Webhook-->>Proxy: 200/4xx + JSON body
-  Proxy-->>You: Forwards status + body
+  participant Proxy as "Proxy (localhost:10000)"
+  participant Webhook as "Webhook (whiterabbit.htb)"
+  You->>Proxy: GET /?query=<payload>
+  Proxy->>Proxy: Build compact JSON
+  Proxy->>Proxy: Compute HMAC-SHA256
+  Proxy->>Webhook: POST /webhook/<uuid> with x-gophish-signature
+  Webhook-->>Proxy: 200/4xx + body
+  Proxy-->>You: Relay status + body
 ```
 
 **Implementation notes**  
