@@ -85,9 +85,9 @@ WEBHOOK_URL = "http://<host>/webhook/<uuid>"
 ```
 
 - The proxy builds a payload object with fields `campaign_id`, `email`, and `message` and **compacts** it before signing.  
-- HMAC is calculated as `HMAC_SHA256(secret, payload_json)` and sent via header `x-gophish-signature: hmac=<digest>`. fileciteturn2file0
+- HMAC is calculated as `HMAC_SHA256(secret, payload_json)` and sent via header `x-gophish-signature: hmac=<digest>`.
 
-> Tip: If you want to pass additional JSON fields, extend the `Payload` class and keep the **same compaction and signing** routine. fileciteturn2file0
+> Tip: If you want to pass additional JSON fields, extend the `Payload` class and keep the **same compaction and signing** routine.
 
 ---
 
