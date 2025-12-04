@@ -73,7 +73,7 @@ pip install -r requirements.txt  # (requests)
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 These constants live at the top of `proxy.py` and can be changed to match your lab:
 
