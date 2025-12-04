@@ -115,6 +115,6 @@ WEBHOOK_URL = "http://<host>/webhook/<uuid>"
 
 ---
 
-## 📝 License
+## License
 
 MIT — see `LICENSE`.
