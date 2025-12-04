@@ -5,7 +5,7 @@
 
 ---
 
-## 🧭 What this is
+## What this is
 
 The WhiteRabbit machine exposes a webhook where the **Get Current Phishing Score** node accepts JSON like:
 
@@ -18,7 +18,7 @@ This proxy listens locally, accepts your payload via a query parameter, **calcul
 
 ---
 
-## 🧩 How it works (at a glance)
+## How it works (at a glance)
 ```mermaid
 sequenceDiagram
   participant You
@@ -40,7 +40,7 @@ sequenceDiagram
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
@@ -52,7 +52,7 @@ pip install -r requirements.txt  # (requests)
 
 ---
 
-## 🚀 Usage
+## Usage
 
 1. **Add the webhook host to `/etc/hosts`** (if needed for the HTB lab environment).
 2. **Start the proxy**:
@@ -89,14 +89,14 @@ WEBHOOK_URL = "http://<host>/webhook/<uuid>"
 
 ---
 
-## 🛡️ Ethics & scope
+## Ethics & scope
 
 - For **authorized research and education** only. Respect HTB rules; **do not** target active machines unlawfully.  
 - This proxy **does not bypass** authentication—it simply mirrors the client behavior of producing the expected HMAC for the JSON body.
 
 ---
 
-## 🧪 Troubleshooting
+## Troubleshooting
 
 - **`Invalid Signature`**: ensure `SECRET` and `WEBHOOK_URL` are correct and the JSON is compacted exactly as the server expects.
 - **No response / timeout**: verify host mapping and that the webhook is reachable from your lab.  
@@ -105,7 +105,7 @@ WEBHOOK_URL = "http://<host>/webhook/<uuid>"
 
 ---
 
-## 📦 File layout
+## File layout
 
 ```
 .
